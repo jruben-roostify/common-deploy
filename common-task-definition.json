@@ -1,6 +1,3 @@
-# sed -e "s;%BUILD_NUMBER%;0;g" common-task-definition.json > common-task-definition-v_0.json
-# sed -e "s;%PROFILE%;dev;g" common-task-definition.json > common-task-definition-v_dev.json
-# aws ecs register-task-definition --cli-input-json file://common-task-definition.json-v_0.json
 {
 	"family": "Common-Task-Definition",
 	"containerDefinitions": [
