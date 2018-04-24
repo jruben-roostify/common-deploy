@@ -2,19 +2,22 @@ pipeline {
     agent any
 
     parameters {
-        booleanParam(defaultValue: true, description: 'test input', name: 'userFlag')
-        string(defaultValue: "TEST", description: 'What environment?', name: 'envirmoment')
-        // choices are newline separated
-        choice(choices: 'US-EAST-1\nUS-WEST-2', description: 'What AWS region?', name: 'region')
+        string(defaultValue: "DEV", description: 'What environment?', name: 'environment')
+        string(defaultValue: "develop-2", description: 'Build Tag', name: 'build_tag')
     }
 
     stages {
-        stage("foo") {
+        stage("Environment Check") {
             steps {
-                echo "flag: ${params.userFlag}"
-                echo "flag: ${params.envirmoment}"
-                echo "flag: ${params.region}"
+                echo "flag: ${params.build_tag}"
+                echo "flag: ${params.environment}"
             }
         }
+        stage("Update Task Definition") {
+            steps {
+                sh "sed -e 's;%BUILD_NUMBER%;${params.build_tag};g' common-task-definition.json > common-task-definition-v_${params.build_tag}.json"
+                sh "sed -e 's;%PROFILE%;${params.environment};g' common-task-definition-v_${params.build_tag}.json > common-task-definition-v_${params.build_tag}.json"
+            }
+        }        
     }
 }
