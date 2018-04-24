@@ -1,0 +1,28 @@
+# sed -e "s;%BUILD_NUMBER%;0;g" common-task-definition.json > common-task-definition-v_0.json
+# sed -e "s;%PROFILE%;dev;g" common-task-definition.json > common-task-definition-v_dev.json`
+# aws ecs register-task-definition --cli-input-json file://common-task-definition.json-v_0.json
+{
+	"family": "Common-Task-Definition",
+	"containerDefinitions": [
+		{
+			"name": "roostify/report-service",
+			"image": "553655158632.dkr.ecr.us-west-2.amazonaws.com/roostify/report-service:%BUILD_NUMBER%",
+			"cpu": 10,
+			"memory": 500,
+			"portMappings": [
+				{
+					"containerPort": 80,
+					"hostPort": 8086
+				}
+			],
+			"entryPoint": null,
+			"essential": true,
+			"environment": [
+				{
+					"name": "SPRING_PROFILES_ACTIVE",
+					"value": "%PROFILE%"
+				}
+			]
+		}
+	]
+}
