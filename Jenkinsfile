@@ -13,6 +13,12 @@ pipeline {
                 echo "flag: ${params.environment}"
             }
         }
+        
+        stage("Checkout") {
+            steps {
+                checkout scm
+            }
+        }        
         stage("Update Task Definition") {
             steps {
                 sh "sed -e 's;%BUILD_NUMBER%;${params.build_tag};g' common-task-definition.json > common-task-definition-v_${params.build_tag}.json"
