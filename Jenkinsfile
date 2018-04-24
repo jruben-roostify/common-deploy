@@ -26,8 +26,9 @@ pipeline {
         }
         stage("Update Task Definition") {
             steps {
-                sh "sed -e 's;%BUILD_NUMBER%;${params.build_tag};g' common-task-definition.json > common-task-definition-v_${params.build_tag}.json"
-                sh "sed -e 's;%PROFILE%;${params.environment};g' common-task-definition-v_${params.build_tag}.json > common-task-definition-v_${params.build_tag}.json"
+                sh "eval `sed -e 's;%BUILD_NUMBER%;${params.build_tag};g' common-task-definition.json > common-task-definition-v_${params.build_tag}.json`"
+                //sh "sed -e 's;%BUILD_NUMBER%;${params.build_tag};g' common-task-definition.json > common-task-definition-v_${params.build_tag}.json"
+                //sh "sed -e 's;%PROFILE%;${params.environment};g' common-task-definition-v_${params.build_tag}.json > common-task-definition-v_${params.build_tag}.json"
             }
         }        
     }
