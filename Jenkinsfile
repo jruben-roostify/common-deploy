@@ -3,6 +3,7 @@ pipeline {
     environment {
             SERVICE_NAME='ecs-cluster-dev-service'
             FAMILY='Common-Task-Definition'
+            CONTAINER_NAME='report-service'
 	    REGION='us-west-2'
     }
     parameters {
@@ -17,7 +18,7 @@ pipeline {
                 echo "flag: ${params.environment}"
             }
         }
-        
+
         stage("Checkout") {
             steps {
                 checkout scm
@@ -33,15 +34,15 @@ pipeline {
                 sh "eval `sed -e 's;%BUILD_NUMBER%;${params.build_tag};g' common-task-definition.json > common-task-definition-v_${params.build_tag}.json`"
                 sh "eval `sed -i -e 's;%PROFILE%;${params.environment};g' common-task-definition-v_${params.build_tag}.json`"
             }
-        } 
+        }
         stage("Register Task Definition") {
             steps {
                 sh "aws ecs register-task-definition --region us-west-2 --family ${FAMILY} --cli-input-json file://common-task-definition-v_${params.build_tag}.json"
                 //def TASK_REVISION = sh "aws ecs describe-task-definition --task-definition ${FAMILY}"
                 //def out = sh script: 'aws ecs describe-task-definition --task-definition ${FAMILY}', returnStdout: true
                 //sh "eval `aws ecs update-service --cluster default --region us-west-2 --service ${SERVICE_NAME} --task-definition ${env.TASK_FAMILY}:${params.build_tag}`"
-                sh "./awsTaskDefinition.sh ${FAMILY} ${SERVICE_NAME} ${REGION}"
+                sh "./awsTaskDefinition.sh ${FAMILY} ${SERVICE_NAME} ${REGION} ${CONTAINER_NAME}"
             }
-        } 
+        }
     }
 }
