@@ -36,7 +36,8 @@ pipeline {
         stage("Register Task Definition") {
             steps {
                 sh "aws ecs register-task-definition --region us-west-2 --family ${FAMILY} --cli-input-json file://common-task-definition-v_${params.build_tag}.json"
-                def TASK_REVISION = sh "aws ecs describe-task-definition --task-definition ${FAMILY}"
+                //def TASK_REVISION = sh "aws ecs describe-task-definition --task-definition ${FAMILY}"
+                def out = sh script: 'aws ecs describe-task-definition --task-definition ${FAMILY}', returnStdout: true
                 //sh "eval `aws ecs update-service --cluster default --region us-west-2 --service ${SERVICE_NAME} --task-definition ${env.TASK_FAMILY}:${params.build_tag}`"
             }
         } 
