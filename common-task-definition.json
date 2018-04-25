@@ -4,8 +4,8 @@
 		{
 			"name": "report-service",
 			"image": "553655158632.dkr.ecr.us-west-2.amazonaws.com/roostify/report-service:%BUILD_NUMBER%",
-			"cpu": 10,
-			"memory": 500,
+			"cpu": 4,
+			"memory": 4096,
 			"portMappings": [
 				{
 					"containerPort": 8086,
