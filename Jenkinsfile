@@ -3,6 +3,7 @@ pipeline {
     environment {
             SERVICE_NAME='ecs-cluster-dev-service'
             FAMILY='Common-Task-Definition'
+	    REGION='us-west-2'
     }
     parameters {
         string(defaultValue: "DEV", description: 'What environment?', name: 'environment')
@@ -39,7 +40,7 @@ pipeline {
                 //def TASK_REVISION = sh "aws ecs describe-task-definition --task-definition ${FAMILY}"
                 //def out = sh script: 'aws ecs describe-task-definition --task-definition ${FAMILY}', returnStdout: true
                 //sh "eval `aws ecs update-service --cluster default --region us-west-2 --service ${SERVICE_NAME} --task-definition ${env.TASK_FAMILY}:${params.build_tag}`"
-                sh "./awsTaskDefinition.sh ${FAMILY} ${SERVICE_NAME}"
+                sh "./awsTaskDefinition.sh ${FAMILY} ${SERVICE_NAME} ${REGION}"
             }
         } 
     }
