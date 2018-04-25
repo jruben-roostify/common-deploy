@@ -36,11 +36,9 @@ pipeline {
         stage("Register Task Definition") {
             steps {
                 sh "aws ecs register-task-definition --region us-west-2 --family ${FAMILY} --cli-input-json file://common-task-definition-v_${params.build_tag}.json"
-                script {
-                  def TASK_REVISION = 'aws ecs describe-task-definition --task-definition ${FAMILY}'.execute() | 'egrep revision'.execute() | "'tr '/' ' '".execute()
-                  //TASK_REVISION.waitFor()
-                  //println TASK_REVISION.text
-                }
+                def TASK_REVISION
+                sh "aws ecs register-task-definition --region us-west-2 --family ${FAMILY} --cli-input-json file://common-task-definition-v_${params.build_tag}.json"
+                TASK_REVISION = sh "aws ecs describe-task-definition --task-definition ${FAMILY}"
                 //sh "eval `aws ecs update-service --cluster default --region us-west-2 --service ${SERVICE_NAME} --task-definition ${env.TASK_FAMILY}:${params.build_tag}`"
             }
         } 
