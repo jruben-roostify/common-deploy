@@ -36,7 +36,7 @@ pipeline {
         stage("Register Task Definition") {
             steps {
                 sh "aws ecs register-task-definition --region us-west-2 --family ${FAMILY} --cli-input-json file://common-task-definition-v_${params.build_tag}.json"
-                sh "eval `aws ecs describe-task-definition --task-definition ${FAMILY} | egrep 'revision' | tr '/' ' ' | awk '{print $2}' | sed 's|\"$//'"
+                sh "eval `aws ecs describe-task-definition --task-definition ${FAMILY} | egrep 'revision' | tr '/' ' ' | awk '{print $2}' | sed 's|\"$//'`"
                 //sh "TASK_REVISION =`aws ecs describe-task-definition --task-definition ${FAMILY} | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`"
                 //sh "TASK_REVISION =`aws ecs describe-task-definition --task-definition ${FAMILY} | egrep \"revision\" | tr \"/\" \" \" | awk '{print $2}' | sed 's/\"$//'`"
                 //sh "eval DESIRED_COUNT=`aws ecs describe-services --services ${SERVICE_NAME} | egrep "desiredCount" | tr "/" " " | awk '{print $2}' | sed 's/,$//'`"
