@@ -12,7 +12,6 @@
 					"hostPort": 8086
 				}
 			],
-			"entryPoint": null,
 			"essential": true,
 			"environment": [
 				{
