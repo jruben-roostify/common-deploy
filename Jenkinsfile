@@ -35,10 +35,10 @@ pipeline {
         } 
         stage("Register Task Definition") {
             steps {
-                sh "eval `/var/jenkins_home/.local/bin/aws ecs register-task-definition --region us-west-2 --family ${FAMILY} --cli-input-json file://common-task-definition-v_${params.build_tag}.json`"
+                sh "eval `aws ecs register-task-definition --region us-west-2 --family ${FAMILY} --cli-input-json file://common-task-definition-v_${params.build_tag}.json`"
                 //sh "eval TASK_REVISION=`aws ecs describe-task-definition --task-definition ${env.TASK_FAMILY} | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`"
                 //sh "eval DESIRED_COUNT=`aws ecs describe-services --services ${SERVICE_NAME} | egrep "desiredCount" | tr "/" " " | awk '{print $2}' | sed 's/,$//'`"
-                sh "eval `/var/jenkins_home/.local/bin/aws ecs update-service --cluster default --region us-west-2 --service ${SERVICE_NAME} --task-definition ${env.TASK_FAMILY}:${params.build_tag}`"
+                sh "eval `aws ecs update-service --cluster default --region us-west-2 --service ${SERVICE_NAME} --task-definition ${env.TASK_FAMILY}:${params.build_tag}`"
             }
            
         } 
