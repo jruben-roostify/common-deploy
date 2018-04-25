@@ -5,4 +5,4 @@ TASK_REVISION=`aws ecs describe-task-definition --task-definition $1 --region $3
 echo $TASK_REVISION
 #echo $DESIRED_COUNT
 
-aws ecs update-service --cluster default --service $2 --region $3 --task-definition $2:${TASK_REVISION} --desired-count 1
+aws ecs update-service --cluster ecs-cluster-dev --service $2 --region $3 --task-definition $2:${TASK_REVISION} --desired-count 1
